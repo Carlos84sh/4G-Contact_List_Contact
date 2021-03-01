@@ -1,5 +1,5 @@
 const getState = ({ getStore, setStore, getActions }) => {
-return {
+	return {
 		store: {
 			agenda: [],
 			contacto: {
@@ -12,12 +12,12 @@ return {
 		},
 
 		actions: {
-            ///////////// OBTENER USUARIOS
-            getUser() {
-                const store = getStore();
-                const urlBase = "https://assets.breatheco.de/";
-                
-                if (store.user.length === 0) {
+			///////////// OBTENER USUARIOS
+			getUser() {
+				const store = getStore();
+				const urlBase = "https://assets.breatheco.de/";
+
+				if (store.user.length === 0) {
 					const endpoint = `${urlBase}apis/fake/contact/agenda/CSanchez`;
 					const config = {
 						method: "GET",
@@ -30,12 +30,12 @@ return {
 						.then(json => {
 							console.log(json);
 							setStore({ user: json.results });
-						}).catch(error => console.log(error));
-                    }
-            },
+						})
+						.catch(error => console.log(error));
+				}
+			},
 
-
-            ///////
+			///////
 			getUser(id) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/" + id;
@@ -51,9 +51,9 @@ return {
 							contacto: json
 						});
 					});
-            },
-            
-            createUser(data) {
+			},
+
+			createUser(data) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/";
 				const config = {
@@ -68,7 +68,7 @@ return {
 						return response.json();
 					})
 					.then(json => {
-						getActions().listContacts(store.usuario);
+						getActions().listContacts(store.user);
 					});
 			},
 
@@ -87,7 +87,10 @@ return {
 						return response.json();
 					})
 					.then(json => {
-						getActions().listContacts(store.usuario);
+						getActions().listContacts(store.user);
+                    })
+                    .catch(error => {
+						console.error("Error:", error);
 					});
 			},
 
@@ -102,7 +105,7 @@ return {
 						return response.json();
 					})
 					.then(json => {
-						getActions().listContacts(store.usuario);
+						getActions().listContacts(store.user);
 					});
 			},
 
