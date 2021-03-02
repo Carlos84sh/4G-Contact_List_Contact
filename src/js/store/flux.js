@@ -1,7 +1,7 @@
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
 		store: {
-			agenda: [],
+			contacts: [],
 			contacto: {
 				full_name: null,
 				phone: null,
@@ -13,23 +13,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 		actions: {
 			///////////// OBTENER USUARIOS
-			getUser() {
+			getUsers() {
 				const store = getStore();
 				const urlBase = "https://assets.breatheco.de/";
-
-				if (store.user.length === 0) {
+				console.log("lista de contacts", store.contacts);
+				if (store.contacts.length === 0) {
 					const endpoint = `${urlBase}apis/fake/contact/agenda/CSanchez`;
 					const config = {
-						method: "GET",
-						cors: true
+						method: "GET"
 					};
 					fetch(endpoint, config)
 						.then(response => {
 							return response.json();
 						})
 						.then(json => {
-							console.log(json);
-							setStore({ user: json.results });
+							console.log("JSON", json);
+							setStore({ contacts: json });
 						})
 						.catch(error => console.log(error));
 				}
@@ -88,8 +87,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					})
 					.then(json => {
 						getActions().listContacts(store.user);
-                    })
-                    .catch(error => {
+					})
+					.catch(error => {
 						console.error("Error:", error);
 					});
 			},
@@ -109,7 +108,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					});
 			},
 
-			listUser(slug) {
+			listContacts(slug) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/agenda/" + slug;
 				const config = {
