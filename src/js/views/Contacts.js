@@ -13,7 +13,15 @@ export const Contacts = () => {
 
 	actions.getUsers();
 	const contactList = store.contacts.map((element, index) => {
-		return <ContactCard key={index} onDelete={() => setState({ showModal: true })} full_name={element.full_name} />;
+		return (
+			<ContactCard
+				key={index}
+				onDelete={() => setState({ showModal: true })}
+				full_name={element.full_name}
+				phone={element.phone}
+				email={element.email}
+			/>
+		);
 	});
 
 	return (
