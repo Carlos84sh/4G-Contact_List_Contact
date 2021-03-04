@@ -6,6 +6,8 @@ import MikePhoto from "../../img/m101.jpg";
 export const ContactCard = props => {
 	const [state, setState] = useState({});
 
+	console.log(props.address);
+
 	return (
 		<li className="list-group-item">
 			<div className="row w-100">
@@ -24,7 +26,7 @@ export const ContactCard = props => {
 					<label className="name lead">{props.full_name}</label>
 					<br />
 					<i className="fas fa-map-marker-alt text-muted mr-3" />
-					<span className="text-muted">5842 Hillcrest Rd</span>
+					<span className="text-muted">{props.address}</span>
 					<br />
 					<span
 						className="fa fa-phone fa-fw text-muted mr-3"
@@ -47,22 +49,15 @@ export const ContactCard = props => {
 	);
 };
 
-/**
- * Define the data-types for
- * your component's properties
- **/
 ContactCard.propTypes = {
 	history: PropTypes.object,
 	onDelete: PropTypes.func,
 	full_name: PropTypes.string,
 	email: PropTypes.string,
-	phone: PropTypes.string
+	phone: PropTypes.string,
+	address: PropTypes.string
 };
 
-/**
- * Define the default values for
- * your component's properties
- **/
 ContactCard.defaultProps = {
 	onDelete: null
 };

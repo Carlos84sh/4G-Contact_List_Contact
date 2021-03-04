@@ -20,6 +20,7 @@ export const Contacts = () => {
 				full_name={element.full_name}
 				phone={element.phone}
 				email={element.email}
+				address={element.address}
 			/>
 		);
 	});

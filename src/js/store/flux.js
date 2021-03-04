@@ -12,7 +12,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 		},
 
 		actions: {
-			///////////// OBTENER USUARIOS
 			getUsers() {
 				const store = getStore();
 				const urlBase = "https://assets.breatheco.de/";
