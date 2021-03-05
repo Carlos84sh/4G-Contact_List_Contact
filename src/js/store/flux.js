@@ -33,7 +33,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			},
 
-			///////
 			getUser(id) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/" + id;
