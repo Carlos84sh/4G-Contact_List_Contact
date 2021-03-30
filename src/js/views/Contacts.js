@@ -3,28 +3,20 @@ import { Link } from "react-router-dom";
 
 import { ContactCard } from "../component/ContactCard.js";
 import { Modal } from "../component/Modal";
-import { Context } from "../store/appContext";
+
+import { Context } from "../store/appContext.js";
 
 export const Contacts = () => {
-	const { store, actions } = useContext(Context);
 	const [state, setState] = useState({
-		showModal: false
+		showModal: false,
+		contact: {}
 	});
 
-	actions.getUsers();
-	const contactList = store.contacts.map((element, index) => {
-		return (
-			<ContactCard
-				key={index}
-				onDelete={() => setState({ showModal: true })}
-				full_name={element.full_name}
-				phone={element.phone}
-				email={element.email}
-				address={element.address}
-				contactId={element.id}
-			/>
-		);
-	});
+	const { store, actions } = useContext(Context);
+
+	useEffect(() => {
+		actions.listContacts(store.usuario);
+	}, []);
 
 	return (
 		<div className="container">
@@ -36,11 +28,28 @@ export const Contacts = () => {
 				</p>
 				<div id="contacts" className="panel-collapse collapse show" aria-expanded="true">
 					<ul className="list-group pull-down" id="contact-list">
-						{contactList}
+						{store.agenda.map((element, index) => {
+							return (
+								<ContactCard
+									onDelete={() => setState({ showModal: true, contact: element })}
+									key={index}
+									contactName={element.full_name}
+									contactAddress={element.address}
+									contactPhone={element.phone}
+									contactEmail={element.email}
+									contactId={element.id}
+								/>
+							);
+						})}
 					</ul>
 				</div>
 			</div>
-			<Modal show={state.showModal} onClose={() => setState({ showModal: false })} />
+			<Modal
+				show={state.showModal}
+				contactId={state.contact.id}
+				contactName={state.contact.full_name}
+				onClose={() => setState({ showModal: false, contact: {} })}
+			/>
 		</div>
 	);
 };

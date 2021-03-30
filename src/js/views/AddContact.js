@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { getState } from "../store/flux.js";
 
 import { Context } from "../store/appContext.js";
 
@@ -12,18 +11,21 @@ export function AddContact() {
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
 
-	const saveContact = e => {
+	function NewEmail(event) {
+		setEmail(event.target.value);
+	}
+
+	const SaveContact = e => {
 		const newContact = {
-			agenda_slug: store.user,
 			full_name: fullName,
 			phone: phone,
 			email: email,
-			address: address
+			address: address,
+			agenda_slug: store.usuario
 		};
-		console.log(newContact); //////////////////////////////////////////////////  BORRAR
 
-		actions.createUser(newContact);
-		alert("new contact created");
+		actions.createContact(newContact);
+		alert("new contact created successfully");
 		setFullName("");
 		setPhone("");
 		setEmail("");
@@ -45,29 +47,26 @@ export function AddContact() {
 							value={fullName}
 						/>
 					</div>
-
 					<div className="form-group">
 						<label>Email</label>
 						<input
-							type="text"
+							type="email"
 							className="form-control"
 							placeholder="Enter email"
-							onChange={event => setEmail(event.target.value)}
+							onChange={event => NewEmail(event)}
 							value={email}
 						/>
 					</div>
-
 					<div className="form-group">
 						<label>Phone</label>
 						<input
-							type="text"
+							type="phone"
 							className="form-control"
 							placeholder="Enter phone"
 							onChange={event => setPhone(event.target.value)}
 							value={phone}
 						/>
 					</div>
-
 					<div className="form-group">
 						<label>Address</label>
 						<input
@@ -79,13 +78,12 @@ export function AddContact() {
 						/>
 					</div>
 					<Link to="/">
-						<button type="button" className="btn btn-primary form-control" onClick={saveContact}>
+						<button type="button" className="btn btn-primary form-control" onClick={SaveContact}>
 							Save
 						</button>
 					</Link>
-
 					<Link className="mt-3 w-100 text-center" to="/">
-						or get back to contacts
+						Get Back To Contacts
 					</Link>
 				</form>
 			</div>

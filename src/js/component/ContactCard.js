@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import MikePhoto from "../../img/m101.jpg";
 
-export const ContactCard = props => {
-	const [state, setState] = useState({});
+import { Context } from "../store/appContext.js";
 
-	console.log(props.address);
+export const ContactCard = props => {
+	const [state, setState] = useState({
+		//initialize state here
+	});
+
+	const { store, actions } = useContext(Context);
 
 	return (
 		<li className="list-group-item">
@@ -21,14 +25,20 @@ export const ContactCard = props => {
 								<i className="fas fa-pencil-alt mr-3" />
 							</button>
 						</Link>
-						<button className="btn" onClick={() => props.onDelete()}>
+						<button
+							className="btn"
+							// onClick={event => actions.deleteContact(props.contactId)}
+							onClick={() => props.onDelete()}>
 							<i className="fas fa-trash-alt" />
 						</button>
 					</div>
-					<label className="name lead">{props.full_name}</label>
+
+					<label className="name lead">{props.contactName}</label>
+
 					<br />
+
 					<i className="fas fa-map-marker-alt text-muted mr-3" />
-					<span className="text-muted">{props.address}</span>
+					<span className="text-muted">{props.contactAddress}</span>
 					<br />
 					<span
 						className="fa fa-phone fa-fw text-muted mr-3"
@@ -36,7 +46,8 @@ export const ContactCard = props => {
 						title=""
 						data-original-title="(870) 288-4149"
 					/>
-					<span className="text-muted small">{props.phone}</span>
+
+					<span className="text-muted small">{props.contactPhone}</span>
 					<br />
 					<span
 						className="fa fa-envelope fa-fw text-muted mr-3"
@@ -44,23 +55,31 @@ export const ContactCard = props => {
 						data-original-title=""
 						title=""
 					/>
-					<span className="text-muted small text-truncate">{props.email}</span>
+					<span className="text-muted small text-truncate">{props.contactEmail}</span>
 				</div>
 			</div>
 		</li>
 	);
 };
 
+/**
+ * Define the data-types for
+ * your component's properties
+ **/
 ContactCard.propTypes = {
 	history: PropTypes.object,
 	onDelete: PropTypes.func,
-	full_name: PropTypes.string,
-	email: PropTypes.string,
-	phone: PropTypes.string,
-	address: PropTypes.string,
+	contactName: PropTypes.string,
+	contactAddress: PropTypes.string,
+	contactPhone: PropTypes.string,
+	contactEmail: PropTypes.string,
 	contactId: PropTypes.string
 };
 
+/**
+ * Define the default values for
+ * your component's properties
+ **/
 ContactCard.defaultProps = {
 	onDelete: null
 };

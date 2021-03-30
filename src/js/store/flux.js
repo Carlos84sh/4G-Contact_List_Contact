@@ -1,39 +1,37 @@
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
 		store: {
-			contacts: [],
+			agenda: [],
 			contacto: {
 				full_name: null,
 				phone: null,
 				email: null,
 				address: null
 			},
-			user: "CSanchez"
+			usuario: "CSanchez"
 		},
-
 		actions: {
-			getUsers() {
+			createContact(data) {
 				const store = getStore();
-				const urlBase = "https://assets.breatheco.de/";
-				console.log("lista de contacts", store.contacts);
-				if (store.contacts.length === 0) {
-					const endpoint = `${urlBase}apis/fake/contact/agenda/CSanchez`;
-					const config = {
-						method: "GET"
-					};
-					fetch(endpoint, config)
-						.then(response => {
-							return response.json();
-						})
-						.then(json => {
-							console.log("JSON", json);
-							setStore({ contacts: json });
-						})
-						.catch(error => console.log(error));
-				}
+				const endpoint = "https://assets.breatheco.de/apis/fake/contact/";
+				const config = {
+					method: "POST",
+					body: JSON.stringify(data),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				};
+				console.log(data);
+				fetch(endpoint, config)
+					.then(response => {
+						return response.json();
+					})
+					.then(json => {
+						getActions().listContacts(store.usuario);
+					});
 			},
 
-			getUser(id) {
+			getContact(id) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/" + id;
 				const config = {
@@ -50,26 +48,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					});
 			},
 
-			createUser(data) {
-				const store = getStore();
-				const endpoint = "https://assets.breatheco.de/apis/fake/contact/";
-				const config = {
-					method: "POST",
-					body: JSON.stringify(data),
-					headers: {
-						"Content-Type": "application/json"
-					}
-				};
-				fetch(endpoint, config)
-					.then(response => {
-						return response.json();
-					})
-					.then(json => {
-						getActions().listContacts(store.user);
-					});
-			},
-
-			updateUser(id, data) {
+			updateContact(id, data) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/" + id;
 				const config = {
@@ -84,14 +63,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						return response.json();
 					})
 					.then(json => {
-						getActions().listContacts(store.user);
-					})
-					.catch(error => {
-						console.error("Error:", error);
+						getActions().listContacts(store.usuario);
 					});
 			},
 
-			deleteUser(id) {
+			deleteContact(id) {
 				const store = getStore();
 				const endpoint = "https://assets.breatheco.de/apis/fake/contact/" + id;
 				const config = {
@@ -102,7 +78,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						return response.json();
 					})
 					.then(json => {
-						getActions().listContacts(store.user);
+						getActions().listContacts(store.usuario);
 					});
 			},
 
@@ -122,9 +98,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 					});
 			}
-
-			//(Arrow) Functions that update the Store
-			// Remember to use the scope: scope.state.store & scope.setState()
 		}
 	};
 };

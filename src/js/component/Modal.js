@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import { Context } from "../store/appContext.js";
 
 export const Modal = props => {
-	const [state, setState] = useState({
-		//initialize state here
-	});
+	const [state, setState] = useState({});
 
 	const { store, actions } = useContext(Context);
 
@@ -42,7 +41,7 @@ export const Modal = props => {
 							className="btn btn-secondary"
 							data-dismiss="modal"
 							onClick={event => {
-								actions.deleteUser(props.contactId);
+								actions.deleteContact(props.contactId);
 								props.onClose();
 							}}>
 							Do it!
@@ -53,6 +52,10 @@ export const Modal = props => {
 		</div>
 	);
 };
+/**
+ * Define the data-types for
+ * your component's properties
+ **/
 Modal.propTypes = {
 	history: PropTypes.object,
 	onClose: PropTypes.func,
@@ -61,6 +64,10 @@ Modal.propTypes = {
 	contactName: PropTypes.string
 };
 
+/**
+ * Define the default values for
+ * your component's properties
+ **/
 Modal.defaultProps = {
 	show: false,
 	onClose: null
